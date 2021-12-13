@@ -27,28 +27,24 @@ namespace Collections
         {
             get
             {
-                IList<TUser> followedUsers = new List<TUser>();
+                ISet<TUser> followedUsers = new HashSet<TUser>();
 
                 foreach (String group in socialNetwork.Keys)
                 {
                     foreach (TUser user in socialNetwork[group])
                     {
-                        if (!followedUsers.Contains(user))
-                        {
-                            followedUsers.Add(user);
-
-                        }
+                        followedUsers.Add(user);
                     }
                 }
 
 
-                return followedUsers;
+                return new List<TUser>(followedUsers);
             }
         }
 
         public ICollection<TUser> GetFollowedUsersInGroup(string group)
         {
-            return socialNetwork.ContainsKey(group) ? socialNetwork[group] : new HashSet<TUser>();
+            return socialNetwork.ContainsKey(group) ? new HashSet<TUser>(socialNetwork[group]) : new HashSet<TUser>();
         }
     }
 }
