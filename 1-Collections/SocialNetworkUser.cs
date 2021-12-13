@@ -6,27 +6,49 @@ namespace Collections
     public class SocialNetworkUser<TUser> : User, ISocialNetworkUser<TUser>
         where TUser : IUser
     {
+        Dictionary<string, ISet<TUser>> socialNetwork;
+
         public SocialNetworkUser(string fullName, string username, uint? age) : base(fullName, username, age)
         {
-            throw new NotImplementedException("TODO is there anything to do here?");
+            socialNetwork = new Dictionary<string, ISet<TUser>>();
         }
 
         public bool AddFollowedUser(string group, TUser user)
         {
-            throw new NotImplementedException("TODO add user to the provided group. Return false if the user was already in the group");
+            if (!socialNetwork.ContainsKey(group))
+            {
+                socialNetwork.Add(group, new HashSet<TUser>());
+            }
+
+            return socialNetwork[group].Add(user);
         }
 
         public IList<TUser> FollowedUsers
         {
             get
             {
-                throw new NotImplementedException("TODO construct and return the list of all users followed by the current users, in all groups");
+                IList<TUser> followedUsers = new List<TUser>();
+
+                foreach (String group in socialNetwork.Keys)
+                {
+                    foreach (TUser user in socialNetwork[group])
+                    {
+                        if (!followedUsers.Contains(user))
+                        {
+                            followedUsers.Add(user);
+
+                        }
+                    }
+                }
+
+
+                return followedUsers;
             }
         }
 
         public ICollection<TUser> GetFollowedUsersInGroup(string group)
         {
-            throw new NotImplementedException("TODO construct and return a collection containing of all users followed by the current users, in group");
+            return socialNetwork.ContainsKey(group) ? socialNetwork[group] : new HashSet<TUser>();
         }
     }
 }
