@@ -6,8 +6,17 @@ namespace Collections
     {
         public User(string fullName, string username, uint? age)
         {
-            throw new NotImplementedException("TODO ensure that username is not null");
-            throw new NotImplementedException("TODO initialise this instance of user accordingly");
+            if (username != null)
+            {
+                Username = username;
+            }
+            else
+            {
+                throw new ArgumentNullException("Username cannot be null");
+            }
+
+            Age = age;
+            FullName = fullName;
         }
         
         public uint? Age { get; }
@@ -16,8 +25,7 @@ namespace Collections
         
         public string Username { get; }
 
-        public bool IsAgeDefined => throw new NotImplementedException("TODO check whether age is non-null or not");
+        public bool IsAgeDefined => Age != null;
         
-        // TODO implement missing methods (try to autonomously figure out which are the necessary methods)
     }
 }
