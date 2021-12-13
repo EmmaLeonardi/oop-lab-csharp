@@ -6,15 +6,8 @@ namespace Collections
     {
         public User(string fullName, string username, uint? age)
         {
-            if (username != null)
-            {
-                Username = username;
-            }
-            else
-            {
-                throw new ArgumentNullException("Username cannot be null");
-            }
 
+            Username = username ?? throw new ArgumentNullException("Username cannot be null");
             Age = age;
             FullName = fullName;
         }
