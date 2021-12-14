@@ -75,12 +75,13 @@ namespace OperatorsOverloading
             if (list1.Length.Equals(list2.Length))
             {
                 int i = 0;
-                foreach(TValue elem in list1.ToFlat())
+                foreach (TValue elem in list1.ToFlat())
                 {
                     if (!elem.Equals(((TValue[])list2)[i]))
                     {
                         return false;
                     }
+                    i++;
                 }
                 return true;
             }
@@ -164,8 +165,7 @@ namespace OperatorsOverloading
         /// <returns>the result list.</returns>
         public static List<TValue> operator +(List<TValue> list1, List<TValue> list2)
         {
-            List.Append(list1, list2);
-            return list1;
+            return List.Append(list1, list2);
         }
 
         /// <summary>
@@ -177,11 +177,19 @@ namespace OperatorsOverloading
         /// <returns>the result list.</returns>
         public static List<TValue> operator -(List<TValue> list1, List<TValue> list2)
         {
-            List<TValue> list3=List.Nil<TValue>();
-            List.Append(list3,list1);
-            //list3.Flatten().
-            //List.Cava(list3, list2);
-            return list3;
+
+            var l2 = List.Nil<TValue>().ToFlat();
+            
+
+            foreach (TValue elem in list1.ToFlat())
+            {
+                if (!list2.ToFlat().Contains(elem))
+                {
+                    l2 = l2.Append(elem);
+                }
+            }
+
+            return List.From(l2); ;
         }
 
         /// <summary>
