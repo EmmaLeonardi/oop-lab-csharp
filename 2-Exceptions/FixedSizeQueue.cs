@@ -1,6 +1,5 @@
 namespace Exceptions
 {
-    // TODO understand the functioning of this class
     public class FixedSizeQueue : IFixedSizeQueue
     {
         private object[] _items;
